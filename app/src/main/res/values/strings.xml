@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Schemer</string>
+    <string name="app_logo">Проекты</string>
+    <string name="sarchProjectTextBoxHint">Поиск проекта</string>
+    <string name="addProjectButton">Добавить</string>
+    <string name="projectCreateLabel">Создание проекта</string>
+    <string name="projectNameLabel">Имя проекта</string>
+    <string name="cancelLabel">Отмена</string>
+    <string name="projectSettingsCheckBoxes_Tasks">Задачи</string>
+    <string name="projectSettingsCheckBoxes_Description">Описание</string>
+    <string name="projectSettingsCheckBoxes_Ideas">Идеи</string>
+    <string name="projectSettingsCheckBoxes_Script">Сценарий</string>
+</resources>

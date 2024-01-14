@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".AddProjectPanel"
+    >
+    <TextView
+        android:id="@+id/projectNameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="cursive"
+        android:text="@string/projectCreateLabel"
+        android:textAlignment="center"
+        android:textColor="@color/projectColor"
+        android:textSize="30sp"
+        android:layout_marginTop="10sp"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/projectSettings"
+        android:layout_below="@+id/projectNameLabel"
+        android:layout_marginBottom="15sp"
+        android:layout_marginHorizontal="10sp"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/projectNameTextField"
+                android:layout_marginTop="10sp"
+                android:hint="@string/projectNameLabel"
+                android:textColor="@color/projectColor"
+                android:textColorHint="@color/hintColor"
+                android:backgroundTint="@color/projectColor"
+                />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/projectTasksFlag"
+                android:layout_below="@+id/projectNameTextField"
+                android:text="@string/projectSettingsCheckBoxes_Tasks"
+                android:textColor="@color/projectColor"
+                />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/projectDescriptionFlag"
+                android:layout_below="@+id/projectTasksFlag"
+                android:text="@string/projectSettingsCheckBoxes_Description"
+                android:textColor="@color/projectColor"
+                />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/projectIdeasFlag"
+                android:layout_below="@+id/projectDescriptionFlag"
+                android:text="@string/projectSettingsCheckBoxes_Ideas"
+                android:textColor="@color/projectColor"
+                />
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/projectScriptFlag"
+                android:layout_below="@+id/projectIdeasFlag"
+                android:text="@string/projectSettingsCheckBoxes_Script"
+                android:textColor="@color/projectColor"
+                />
+
+            <Button
+                android:id="@+id/addNewProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/projectScriptFlag"
+                android:text="@string/addProjectButton"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/projectColor"
+                />
+            <Button
+                android:id="@+id/cancelAddNewProject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/addNewProject"
+                android:text="@string/cancelLabel"
+                android:textColor="@color/black"
+                android:backgroundTint="@color/projectColor"
+                />
+        </RelativeLayout>
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+        </LinearLayout>-->
+
+
+
+    </ScrollView>
+
+
+</RelativeLayout>
