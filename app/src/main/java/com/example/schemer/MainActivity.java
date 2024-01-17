@@ -1,14 +1,24 @@
 package com.example.schemer;
 
+import static classes.ButtonCreator.DropButton;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -20,9 +30,16 @@ import classes.Project;
 
 public class MainActivity extends Activity {
 
+    private EditText searchProjectTextField;
+
     private Button addProjectButton;
     private Button projectButtonExample;
+
     private LinearLayout content;
+
+    private SensorManager sm;
+    private Sensor s;
+    private SensorEventListener sv;
     
     List<Button> projectsButton = new ArrayList<Button>();
     SQLiteDatabase appDataBase;
@@ -32,6 +49,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        searchProjectTextField = findViewById(R.id.searchProjectTextField);
 
         projectButtonExample = findViewById(R.id.projectButtonExample);
         content = findViewById(R.id.content);
@@ -44,9 +63,61 @@ public class MainActivity extends Activity {
             projectsNames.add(appData.getString(1));
         }
 
+
         for(String name : projectsNames){
-            content.addView(ButtonCreator.CreateButton(name, projectButtonExample.getContext()));
+            Button button = ButtonCreator.CreateButton(name, projectButtonExample.getContext());
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(content.getContext());
+                    builder.setTitle("Вы уверены, что хотите удалить проект?");
+                    builder.setMessage("Проект " + button.getText() + " будет удален");
+                    builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            appDataBase.delete("Projects", "Name = ?", new String[]{button.getText().toString()});
+                            DropButton(button, content);
+                        }
+                    });
+                    builder.setNegativeButton("Нет", null);
+                    builder.show();
+                    return false;
+                }
+            });
+            content.addView(button);
+
         }
+
+        //Sensor
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if(sm != null)
+            s = sm.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+        sv = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                float[] rotationMatrix = new float[16];
+                SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values);
+                float[] remappedRotationMatrix = new float[16];
+                SensorManager.remapCoordinateSystem(rotationMatrix,
+                        SensorManager.AXIS_X,
+                        SensorManager.AXIS_Z,
+                        remappedRotationMatrix);
+
+                float[] orientations = new float[3];
+                SensorManager.getOrientation(remappedRotationMatrix, orientations);
+                for(float orientation : orientations){
+                    orientation = (float) (Math.toDegrees(orientation));
+                }
+                if(orientations[1] < -1){
+                    finish();
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
 
         projectButtonExample.setVisibility(View.GONE);
 
@@ -58,6 +129,19 @@ public class MainActivity extends Activity {
             }
         });
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        sm.registerListener(sv, s, SensorManager.SENSOR_DELAY_FASTEST);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(sv);
+    }
+
 
 }
 
