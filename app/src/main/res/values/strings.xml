@@ -10,4 +10,7 @@
     <string name="projectSettingsCheckBoxes_Description">Описание</string>
     <string name="projectSettingsCheckBoxes_Ideas">Идеи</string>
     <string name="projectSettingsCheckBoxes_Script">Сценарий</string>
+    <string name="backButtonText">Назад</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

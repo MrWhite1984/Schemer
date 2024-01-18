@@ -16,6 +16,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,19 +32,26 @@ import classes.Project;
 
 public class MainActivity extends Activity {
 
+    //EditTexts
     private EditText searchProjectTextField;
 
+    //Buttons
     private Button addProjectButton;
     private Button projectButtonExample;
 
+    //LinearLayout
     private LinearLayout content;
 
+    //Sensor
     private SensorManager sm;
     private Sensor s;
     private SensorEventListener sv;
-    
-    List<Button> projectsButton = new ArrayList<Button>();
+
+    //DataBase
     SQLiteDatabase appDataBase;
+    private Cursor appData;
+
+
     private List<String> projectsNames = new ArrayList<String>();
 
     @Override
@@ -50,22 +59,22 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        searchProjectTextField = findViewById(R.id.searchProjectTextField);
+        //SearcTextField
+        //searchProjectTextField = findViewById(R.id.searchProjectTextField);
 
+
+        //
         projectButtonExample = findViewById(R.id.projectButtonExample);
         content = findViewById(R.id.content);
 
+        //DB creation
         appDataBase = openOrCreateDatabase("projectData.db", MODE_PRIVATE, null);
         appDataBase = DBHandler.checkingAndUpdatingTheDatabase(appDataBase);
-
-        Cursor appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
+        //deleteDatabase("projectData.db");
+        //ButtonGeneration
+        appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
         while (appData.moveToNext()){
-            projectsNames.add(appData.getString(1));
-        }
-
-
-        for(String name : projectsNames){
-            Button button = ButtonCreator.CreateButton(name, projectButtonExample.getContext());
+            Button button = ButtonCreator.CreateButton(appData.getString(1), getApplicationContext(), appData.getInt(0));
             button.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -84,8 +93,16 @@ public class MainActivity extends Activity {
                     return false;
                 }
             });
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProjectCardPanel.projectName = button.getText().toString();
+                    ProjectCardPanel.projectCode = Integer.parseInt(button.getContentDescription().toString());
+                    ProjectCardPanel.appDataBase = appDataBase;
+                    startActivity(new Intent(getApplicationContext(), ProjectCardPanel.class));
+                }
+            });
             content.addView(button);
-
         }
 
         //Sensor
@@ -119,12 +136,14 @@ public class MainActivity extends Activity {
             }
         };
 
+        //Set ProjectButtonExample Visibility None
         projectButtonExample.setVisibility(View.GONE);
 
         addProjectButton = findViewById(R.id.addProjectButton);
         addProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AddProjectPanel.quantityOfRecords = appData.getCount();
                 startActivity(new Intent(getApplicationContext(), AddProjectPanel.class));
             }
         });
@@ -141,7 +160,5 @@ public class MainActivity extends Activity {
         super.onPause();
         sm.unregisterListener(sv);
     }
-
-
 }
 

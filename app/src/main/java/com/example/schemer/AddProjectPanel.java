@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,38 +26,46 @@ import classes.DBHandler;
 import classes.Project;
 
 public class AddProjectPanel extends Activity {
+
+    //Add and cancelAdd project buttons
     private Button addNewProjectButton;
     private Button cancelAddNewProject;
 
+    //Project parametrs
     private EditText projectNameTextField;
     private CheckBox projectTasksFlag;
     private CheckBox projectDescriptionFlag;
     private CheckBox projectIdeasFlag;
     private CheckBox projectScriptFlag;
 
-
-
+    //DB
     SQLiteDatabase appDataBase;
+    public static int quantityOfRecords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_project);
 
+        //Project parametrs init
         projectNameTextField = findViewById(R.id.projectNameTextField);
         projectTasksFlag = findViewById(R.id.projectTasksFlag);
         projectDescriptionFlag = findViewById(R.id.projectDescriptionFlag);
         projectIdeasFlag = findViewById(R.id.projectIdeasFlag);
         projectScriptFlag = findViewById(R.id.projectScriptFlag);
 
+        //Add new project button init
         addNewProjectButton = findViewById(R.id.addNewProject);
 
+        //AddProjectButton code
+        //DB data adding
         addNewProjectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!projectNameTextField.getText().toString().equals("")){
                     appDataBase = openOrCreateDatabase("projectData.db", MODE_PRIVATE, null);
                     ContentValues row = new ContentValues();
+                    row.put("ID", quantityOfRecords +1);
                     row.put("Name", projectNameTextField.getText().toString());
                     row.put("Tasks", projectTasksFlag.isChecked());
                     row.put("Description", projectDescriptionFlag.isChecked());
@@ -69,7 +78,7 @@ public class AddProjectPanel extends Activity {
             }
         });
 
-
+        //CancelAddProjectButton code
         cancelAddNewProject = findViewById(R.id.cancelAddNewProject);
         cancelAddNewProject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +86,6 @@ public class AddProjectPanel extends Activity {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
-
 
     }
 
