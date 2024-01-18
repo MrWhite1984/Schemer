@@ -3,14 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskFragment"
-    android:background="@color/black">
+    tools:context=".StubFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/qwe"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/stubPanelLabel"
+        android:textColor="@color/projectColor"
+        android:background="@color/black"
+        android:gravity="center"
+        android:textSize="30sp"/>
 
 </FrameLayout>

@@ -11,6 +11,10 @@
     <string name="projectSettingsCheckBoxes_Ideas">Идеи</string>
     <string name="projectSettingsCheckBoxes_Script">Сценарий</string>
     <string name="backButtonText">Назад</string>
+    <string name="stubPanelLabel">Панель отключена</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- fragment_settings strings -->
+    <string name="projectSettingsCheckBoxes">Панели</string>
 </resources>
