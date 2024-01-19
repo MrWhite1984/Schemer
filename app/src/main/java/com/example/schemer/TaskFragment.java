@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -55,14 +56,14 @@ public class TaskFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private TextView sd;
+    private LinearLayout linearLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inf = inflater.inflate(R.layout.fragment_task, container, false);
-        sd = inf.findViewById(R.id.qwe);
-        sd.setText("qwe");
+        linearLayout = inf.findViewById(R.id.task_fragment_ll);
+        //linearLayout.setText("qwe");
         return inf;
     }
 
