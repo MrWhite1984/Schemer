@@ -1,5 +1,8 @@
 package com.example.schemer;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -57,13 +62,28 @@ public class TaskFragment extends Fragment {
         }
     }
     private LinearLayout linearLayout;
+
+    private ImageButton task_fragment_top_bar_add_button;
+
+    public SQLiteDatabase appDataBase;
+    public int PID;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View inf = inflater.inflate(R.layout.fragment_task, container, false);
         linearLayout = inf.findViewById(R.id.task_fragment_ll);
-        //linearLayout.setText("qwe");
+        task_fragment_top_bar_add_button = inf.findViewById(R.id.task_fragment_top_bar_add_button);
+        task_fragment_top_bar_add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TaskDataActivity.class));
+            }
+        });
+        Cursor appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
+        while (appData.moveToNext()){
+            linearLayout.addView(new Button(getContext()));
+        }
         return inf;
     }
 

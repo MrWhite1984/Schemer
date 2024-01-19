@@ -17,4 +17,7 @@
 
     <!-- fragment_settings strings -->
     <string name="projectSettingsCheckBoxes">Панели</string>
+
+    <!-- activity_task_data strings -->
+    <string name="activity_task_data_task_fragment_text">Текст задачи</string>
 </resources>

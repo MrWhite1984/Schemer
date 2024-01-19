@@ -68,7 +68,10 @@ public class ProjectCardPanel extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if(flags[0]){
-            replaceFragment(new TaskFragment());
+            TaskFragment taskFragment = new TaskFragment();
+            taskFragment.appDataBase = appDataBase;
+            taskFragment.PID = projectCode;
+            replaceFragment(taskFragment);
         }
         else if(flags[1]){
             replaceFragment(new DescriptionsFragment());
@@ -90,6 +93,8 @@ public class ProjectCardPanel extends AppCompatActivity {
             //flagTrue
             if (item.getItemId() == R.id.tab_tasks && flags[0]){
                 TaskFragment taskFragment = new TaskFragment();
+                taskFragment.appDataBase = appDataBase;
+                taskFragment.PID = projectCode;
                 replaceFragment(taskFragment);
             }
             else if(item.getItemId() == R.id.tab_description && flags[1]){
