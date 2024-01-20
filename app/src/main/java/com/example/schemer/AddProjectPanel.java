@@ -72,7 +72,6 @@ public class AddProjectPanel extends Activity {
                     row.put("Ideas", projectIdeasFlag.isChecked());
                     row.put("Script", projectScriptFlag.isChecked());
                     appDataBase.insert("Projects", null, row);
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     finish();
                 }
             }

@@ -1,5 +1,7 @@
 package com.example.schemer;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +61,33 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    private CheckBox projectTasksFlag;
+    private CheckBox projectDescriptionFlag;
+    private CheckBox projectIdeasFlag;
+    private CheckBox projectScriptFlag;
+
+    public static SQLiteDatabase appDataBase;
+    public static Cursor appData;
+    public boolean[] flags;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View inf = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        projectTasksFlag = inf.findViewById(R.id.settings_fragment_projectTasksFlag);
+        projectDescriptionFlag = inf.findViewById(R.id.settings_fragment_projectDescriptionFlag);
+        projectIdeasFlag = inf.findViewById(R.id.settings_fragment_projectIdeasFlag);
+        projectScriptFlag = inf.findViewById(R.id.settings_fragment_projectScriptFlag);
+
+        CheckBox[] checkBoxes = new CheckBox[]{projectTasksFlag, projectDescriptionFlag, projectIdeasFlag, projectScriptFlag};
+        for (int i = 0; i <= 3; i++){
+            if(flags[i]){
+                checkBoxes[i].setChecked(true);
+            }
+        }
+
+        return inf;
     }
 }

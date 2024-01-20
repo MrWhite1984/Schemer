@@ -86,7 +86,9 @@ public class ProjectCardPanel extends AppCompatActivity {
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_script);
         }
         else {
-            replaceFragment(new SettingsFragment());
+            SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.flags = flags;
+            replaceFragment(settingsFragment);
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_settings);
         }
         binding.BottomNavigationView.setOnItemSelectedListener(item -> {
@@ -107,7 +109,9 @@ public class ProjectCardPanel extends AppCompatActivity {
                 replaceFragment(new ScriptFragment());
             }
             else if(item.getItemId() == R.id.tab_settings){
-                replaceFragment(new SettingsFragment());
+                SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.flags = flags;
+                replaceFragment(settingsFragment);
             }
             //flagFalse
             else if((item.getItemId() == R.id.tab_tasks && !flags[0]) ||

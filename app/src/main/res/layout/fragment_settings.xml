@@ -36,6 +36,7 @@
                     android:text="@string/projectSettingsCheckBoxes_Tasks"
                     android:textColor="@color/projectColor"
                     android:textSize="15sp"
+                    android:id="@+id/settings_fragment_projectTasksFlag"
                     />
                 <CheckBox
                     android:layout_width="match_parent"
@@ -43,6 +44,7 @@
                     android:text="@string/projectSettingsCheckBoxes_Description"
                     android:textColor="@color/projectColor"
                     android:textSize="15sp"
+                    android:id="@+id/settings_fragment_projectDescriptionFlag"
                     />
                 <CheckBox
                     android:layout_width="match_parent"
@@ -50,6 +52,7 @@
                     android:text="@string/projectSettingsCheckBoxes_Ideas"
                     android:textColor="@color/projectColor"
                     android:textSize="15sp"
+                    android:id="@+id/settings_fragment_projectIdeasFlag"
                     />
                 <CheckBox
                     android:layout_width="match_parent"
@@ -57,6 +60,7 @@
                     android:text="@string/projectSettingsCheckBoxes_Script"
                     android:textColor="@color/projectColor"
                     android:textSize="15sp"
+                    android:id="@+id/settings_fragment_projectScriptFlag"
                     />
             </LinearLayout>
         </LinearLayout>

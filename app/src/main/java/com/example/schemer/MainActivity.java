@@ -72,38 +72,7 @@ public class MainActivity extends Activity {
         appDataBase = DBHandler.checkingAndUpdatingTheDatabase(appDataBase);
         //deleteDatabase("projectData.db");
         //ButtonGeneration
-        appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
-        while (appData.moveToNext()){
-            Button button = ButtonCreator.CreateButton(appData.getString(1), getApplicationContext(), appData.getInt(0));
-            button.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(content.getContext());
-                    builder.setTitle("Вы уверены, что хотите удалить проект?");
-                    builder.setMessage("Проект " + button.getText() + " будет удален");
-                    builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            appDataBase.delete("Projects", "Name = ?", new String[]{button.getText().toString()});
-                            DropButton(button, content);
-                        }
-                    });
-                    builder.setNegativeButton("Нет", null);
-                    builder.show();
-                    return false;
-                }
-            });
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ProjectCardPanel.projectName = button.getText().toString();
-                    ProjectCardPanel.projectCode = Integer.parseInt(button.getContentDescription().toString());
-                    ProjectCardPanel.appDataBase = appDataBase;
-                    startActivity(new Intent(getApplicationContext(), ProjectCardPanel.class));
-                }
-            });
-            content.addView(button);
-        }
+        //appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
 
         //Sensor
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -153,6 +122,41 @@ public class MainActivity extends Activity {
     protected void onResume(){
         super.onResume();
         sm.registerListener(sv, s, SensorManager.SENSOR_DELAY_FASTEST);
+
+        appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
+        content.removeAllViews();
+        while (appData.moveToNext()){
+            Button button = ButtonCreator.CreateButton(appData.getString(1), getApplicationContext(), appData.getInt(0));
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(content.getContext());
+                    builder.setTitle("Вы уверены, что хотите удалить проект?");
+                    builder.setMessage("Проект " + button.getText() + " будет удален");
+                    builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            appDataBase.delete("Tasks", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Projects", "Name = ?", new String[]{button.getText().toString()});
+                            DropButton(button, content);
+                        }
+                    });
+                    builder.setNegativeButton("Нет", null);
+                    builder.show();
+                    return true;
+                }
+            });
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProjectCardPanel.projectName = button.getText().toString();
+                    ProjectCardPanel.projectCode = Integer.parseInt(button.getContentDescription().toString());
+                    ProjectCardPanel.appDataBase = appDataBase;
+                    startActivity(new Intent(getApplicationContext(), ProjectCardPanel.class));
+                }
+            });
+            content.addView(button);
+        }
     }
 
     @Override
