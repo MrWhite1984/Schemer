@@ -1,5 +1,10 @@
 package com.example.schemer;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +12,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import classes.ButtonCreator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +65,58 @@ public class IdeasFragment extends Fragment {
         }
     }
 
+    private LinearLayout linearLayout;
+
+    private ImageButton ideas_fragment_top_bar_add_button;
+
+    public SQLiteDatabase appDataBase;
+    public int PID;
+    private Cursor appData;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ideas, container, false);
+        View inf = inflater.inflate(R.layout.fragment_ideas, container, false);
+
+        linearLayout = inf.findViewById(R.id.ideas_fragment_ll);
+        ideas_fragment_top_bar_add_button = inf.findViewById(R.id.ideas_fragment_top_bar_add_button);
+        //appData = appDataBase.rawQuery("SELECT * FROM Ideas WHERE PID = ?", new String[]{String.valueOf(PID)});
+        ideas_fragment_top_bar_add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appData = appDataBase.rawQuery("SELECT * FROM Ideas WHERE PID = ?", new String[]{String.valueOf(PID)});
+                IdeasDataActivity.creating = true;
+                IdeasDataActivity.PID = PID;
+                IdeasDataActivity.appDataBase = appDataBase;
+                IdeasDataActivity.quantityOfRecords = appData.getCount();
+                startActivity(new Intent(getContext(), IdeasDataActivity.class));
+            }
+        });
+
+        return inf;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        appData = appDataBase.rawQuery("SELECT * FROM Ideas WHERE PID = ?", new String[]{String.valueOf(PID)});
+        linearLayout.removeAllViews();
+        while (appData.moveToNext()){
+            Button button = ButtonCreator.CreateButton(appData.getString(2), getContext(), appData.getInt(0));
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IdeasDataActivity.creating = false;
+                    IdeasDataActivity.PID = PID;
+                    IdeasDataActivity.appDataBase = appDataBase;
+                    IdeasDataActivity.ID = Integer.parseInt(button.getContentDescription().toString());
+                    IdeasDataActivity.ideaText = button.getText().toString();
+                    startActivity(new Intent(getContext(), IdeasDataActivity.class));
+                }
+            });
+            linearLayout.addView(button);
+        }
     }
 }

@@ -107,11 +107,13 @@ public class MainActivity extends Activity {
                     }
 
                     if(!dataHided && positionMark2){
-                        content.removeAllViews();
+                        content.setVisibility(View.INVISIBLE);
+                        // content.removeAllViews();
                         dataHided = true;
                     }
                     else if(!positionMark1 && positionMark2){
-                        ButtonGenerator();
+                        content.setVisibility(View.VISIBLE);
+                        //ButtonGenerator();
                         dataHided = false;
                         positionMark2 = false;
                         positionMark1 = true;
@@ -170,6 +172,9 @@ public class MainActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             appDataBase.delete("Tasks", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Descriptions", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Scripts", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Ideas", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
                             appDataBase.delete("Projects", "Name = ?", new String[]{button.getText().toString()});
                             DropButton(button, content);
                         }

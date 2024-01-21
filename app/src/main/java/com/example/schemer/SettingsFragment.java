@@ -1,15 +1,20 @@
 package com.example.schemer;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +66,19 @@ public class SettingsFragment extends Fragment {
         }
     }
 
+    private ImageButton fragment_settings_top_bar_save_button;
+
     private CheckBox projectTasksFlag;
     private CheckBox projectDescriptionFlag;
     private CheckBox projectIdeasFlag;
     private CheckBox projectScriptFlag;
 
-    public static SQLiteDatabase appDataBase;
+    private EditText fragment_settings_project_name;
+
+    public SQLiteDatabase appDataBase;
     public static Cursor appData;
     public boolean[] flags;
+    public int projectCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,10 +86,44 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View inf = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        fragment_settings_top_bar_save_button = inf.findViewById(R.id.fragment_settings_top_bar_save_button);
+
+        fragment_settings_project_name = inf.findViewById(R.id.fragment_settings_project_name);
+
         projectTasksFlag = inf.findViewById(R.id.settings_fragment_projectTasksFlag);
         projectDescriptionFlag = inf.findViewById(R.id.settings_fragment_projectDescriptionFlag);
         projectIdeasFlag = inf.findViewById(R.id.settings_fragment_projectIdeasFlag);
         projectScriptFlag = inf.findViewById(R.id.settings_fragment_projectScriptFlag);
+
+
+        fragment_settings_top_bar_save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContentValues row = new ContentValues();
+                row.put("Name", fragment_settings_project_name.getText().toString());
+                appDataBase.update("Projects", row, "ID = ?", new String[]{String.valueOf(projectCode)});
+                fragment_settings_top_bar_save_button.setVisibility(View.GONE);
+            }
+        });
+
+
+        fragment_settings_project_name.setText(ProjectCardPanel.projectName);
+        fragment_settings_project_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fragment_settings_top_bar_save_button.setVisibility(View.VISIBLE);
+            }
+        });
 
         CheckBox[] checkBoxes = new CheckBox[]{projectTasksFlag, projectDescriptionFlag, projectIdeasFlag, projectScriptFlag};
         for (int i = 0; i <= 3; i++){

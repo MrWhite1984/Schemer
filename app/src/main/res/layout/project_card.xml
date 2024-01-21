@@ -8,16 +8,13 @@
     tools:context=".ProjectCardPanel"
     android:id="@+id/project_card_relative_layout">
 
-    <TextView
-        android:id="@+id/projectNameLabel"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/projectColor"
-        android:textAlignment="center"
-        android:textSize="30sp"
-        android:layout_marginTop="10sp"
-        android:text=""
-        />
+        android:id="@+id/project_card_ll"
+        android:orientation="vertical">
+
+    </LinearLayout>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,15 +22,16 @@
         android:layout_below="@+id/BottomNavigationView">
 
     </FrameLayout>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_below="@+id/projectNameLabel"
+        android:layout_below="@+id/project_card_ll"
         android:id="@+id/BottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/navi_bar_tabs"
         android:background="@color/projectColor"
         app:itemTextColor="@color/black"
-        >
 
+        >
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>

@@ -80,8 +80,7 @@ public class TaskFragment extends Fragment {
 
     public SQLiteDatabase appDataBase;
     public int PID;
-
-    private Vibrator vibrator;
+    private Cursor appData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,10 +89,11 @@ public class TaskFragment extends Fragment {
         View inf = inflater.inflate(R.layout.fragment_task, container, false);
         linearLayout = inf.findViewById(R.id.task_fragment_ll);
         task_fragment_top_bar_add_button = inf.findViewById(R.id.task_fragment_top_bar_add_button);
-        Cursor appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
+        //appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
         task_fragment_top_bar_add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
                 TaskDataActivity.creating = true;
                 TaskDataActivity.PID = PID;
                 TaskDataActivity.appDataBase = appDataBase;
@@ -110,7 +110,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Cursor appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
+        appData = appDataBase.rawQuery("SELECT * FROM Tasks WHERE PID = ?", new String[]{String.valueOf(PID)});
         linearLayout.removeAllViews();
         while (appData.moveToNext()){
             Button button = ButtonCreator.CreateButton(appData.getString(2), getContext(), appData.getInt(0));

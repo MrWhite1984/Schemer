@@ -72,6 +72,20 @@ public class AddProjectPanel extends Activity {
                     row.put("Ideas", projectIdeasFlag.isChecked());
                     row.put("Script", projectScriptFlag.isChecked());
                     appDataBase.insert("Projects", null, row);
+                    if(projectDescriptionFlag.isChecked()){
+                        row = new ContentValues();
+                        row.put("ID", appDataBase.rawQuery("SELECT * FROM Descriptions", null).getCount() + 1);
+                        row.put("PID", quantityOfRecords +1);
+                        row.put("Data", "");
+                        appDataBase.insert("Descriptions", null, row);
+                    }
+                    if(projectScriptFlag.isChecked()){
+                        row = new ContentValues();
+                        row.put("ID", appDataBase.rawQuery("SELECT * FROM Scripts", null).getCount() + 1);
+                        row.put("PID", quantityOfRecords +1);
+                        row.put("Data", "");
+                        appDataBase.insert("Scripts", null, row);
+                    }
                     finish();
                 }
             }

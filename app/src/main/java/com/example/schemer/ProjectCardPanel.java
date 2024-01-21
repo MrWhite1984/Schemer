@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -26,7 +27,7 @@ public class ProjectCardPanel extends AppCompatActivity {
     public static String projectName;
     public static int projectCode;
 
-    private TextView projectNameLabel;
+    private EditText projectNameLabel;
 
     //DB
     public static SQLiteDatabase appDataBase;
@@ -44,7 +45,6 @@ public class ProjectCardPanel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //binding.projectNameLabel.setText("projectName");
         //projectNameLabel = findViewById(R.id.projectNameLabel);
-        //projectNameLabel.setText(projectName);
 
 
         appData = appDataBase.rawQuery("SELECT * FROM Projects WHERE ID = ?", new String[]{String.valueOf(projectCode)});
@@ -74,19 +74,30 @@ public class ProjectCardPanel extends AppCompatActivity {
             replaceFragment(taskFragment);
         }
         else if(flags[1]){
-            replaceFragment(new DescriptionsFragment());
+            DescriptionsFragment descriptionsFragment = new DescriptionsFragment();
+            descriptionsFragment.appDataBase = appDataBase;
+            descriptionsFragment.PID = projectCode;
+            replaceFragment(descriptionsFragment);
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_description);
         }
         else if(flags[2]){
-            replaceFragment(new IdeasFragment());
+            IdeasFragment ideasFragment = new IdeasFragment();
+            ideasFragment.appDataBase = appDataBase;
+            ideasFragment.PID = projectCode;
+            replaceFragment(ideasFragment);
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_ideas);
         }
         else if(flags[3]){
-            replaceFragment(new ScriptFragment());
+            ScriptFragment scriptFragment = new ScriptFragment();
+            scriptFragment.appDataBase = appDataBase;
+            scriptFragment.PID = projectCode;
+            replaceFragment(scriptFragment);
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_script);
         }
         else {
             SettingsFragment settingsFragment = new SettingsFragment();
+            settingsFragment.appDataBase = appDataBase;
+            settingsFragment.projectCode = projectCode;
             settingsFragment.flags = flags;
             replaceFragment(settingsFragment);
             binding.BottomNavigationView.setSelectedItemId(R.id.tab_settings);
@@ -100,16 +111,27 @@ public class ProjectCardPanel extends AppCompatActivity {
                 replaceFragment(taskFragment);
             }
             else if(item.getItemId() == R.id.tab_description && flags[1]){
-                replaceFragment(new DescriptionsFragment());
+                DescriptionsFragment descriptionsFragment = new DescriptionsFragment();
+                descriptionsFragment.appDataBase = appDataBase;
+                descriptionsFragment.PID = projectCode;
+                replaceFragment(descriptionsFragment);
             }
             else if(item.getItemId() == R.id.tab_ideas && flags[2]){
-                replaceFragment(new IdeasFragment());
+                IdeasFragment ideasFragment = new IdeasFragment();
+                ideasFragment.appDataBase = appDataBase;
+                ideasFragment.PID = projectCode;
+                replaceFragment(ideasFragment);
             }
             else if(item.getItemId() == R.id.tab_script && flags[3]){
-                replaceFragment(new ScriptFragment());
+                ScriptFragment scriptFragment = new ScriptFragment();
+                scriptFragment.appDataBase = appDataBase;
+                scriptFragment.PID = projectCode;
+                replaceFragment(scriptFragment);
             }
             else if(item.getItemId() == R.id.tab_settings){
                 SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.appDataBase = appDataBase;
+                settingsFragment.projectCode = projectCode;
                 settingsFragment.flags = flags;
                 replaceFragment(settingsFragment);
             }
