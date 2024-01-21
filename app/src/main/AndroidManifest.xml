@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Schemer"
         tools:targetApi="31">
         <activity
+            android:name=".AppLockActivity"
+            android:exported="false" />
+        <activity
             android:name=".TaskDataActivity"
             android:exported="false" />
         <activity

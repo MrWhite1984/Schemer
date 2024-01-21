@@ -54,6 +54,10 @@ public class MainActivity extends Activity {
 
     private List<String> projectsNames = new ArrayList<String>();
 
+    private boolean dataHided;
+    private boolean positionMark1;
+    private boolean positionMark2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +66,7 @@ public class MainActivity extends Activity {
         //SearcTextField
         //searchProjectTextField = findViewById(R.id.searchProjectTextField);
 
-
+        dataHided = false;
         //
         projectButtonExample = findViewById(R.id.projectButtonExample);
         content = findViewById(R.id.content);
@@ -75,6 +79,8 @@ public class MainActivity extends Activity {
         //appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
 
         //Sensor
+        positionMark1 = false;
+        positionMark2 = false;
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if(sm != null)
             s = sm.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
@@ -95,7 +101,24 @@ public class MainActivity extends Activity {
                     orientation = (float) (Math.toDegrees(orientation));
                 }
                 if(orientations[1] < -1){
-                    finish();
+                    if(!positionMark1 && !positionMark2){
+                        positionMark2 = true;
+                        positionMark1 = true;
+                    }
+
+                    if(!dataHided && positionMark2){
+                        content.removeAllViews();
+                        dataHided = true;
+                    }
+                    else if(!positionMark1 && positionMark2){
+                        ButtonGenerator();
+                        dataHided = false;
+                        positionMark2 = false;
+                        positionMark1 = true;
+                    }
+                }
+                else {
+                    positionMark1 = false;
                 }
             }
 
@@ -122,7 +145,17 @@ public class MainActivity extends Activity {
     protected void onResume(){
         super.onResume();
         sm.registerListener(sv, s, SensorManager.SENSOR_DELAY_FASTEST);
+        ButtonGenerator();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(sv);
+    }
+
+    private void ButtonGenerator(){
         appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
         content.removeAllViews();
         while (appData.moveToNext()){
@@ -157,12 +190,6 @@ public class MainActivity extends Activity {
             });
             content.addView(button);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        sm.unregisterListener(sv);
     }
 }
 

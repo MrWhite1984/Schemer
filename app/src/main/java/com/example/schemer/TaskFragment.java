@@ -124,13 +124,13 @@ public class TaskFragment extends Fragment {
                         button.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         ContentValues row = new ContentValues();
                         row.put("isCompleted", true);
-                        appDataBase.update("Tasks", row, "id = ?", new String[]{button.getContentDescription().toString()});
+                        appDataBase.update("Tasks", row, "ID = ?", new String[]{button.getContentDescription().toString()});
                     }
                     else {
                         button.setPaintFlags(0);
                         ContentValues row = new ContentValues();
                         row.put("isCompleted", false);
-                        appDataBase.update("Tasks", row, "id = ?", new String[]{button.getContentDescription().toString()});
+                        appDataBase.update("Tasks", row, "ID = ?", new String[]{button.getContentDescription().toString()});
                     }
 
                     return true;

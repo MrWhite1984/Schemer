@@ -53,6 +53,12 @@ public class TaskDataActivity extends AppCompatActivity {
                         appDataBase.insert("Tasks", null, row);
                         finish();
                     }
+                    else {
+                        ContentValues row = new ContentValues();
+                        row.put("Data", activity_task_data_task_fragment.getText().toString());
+                        appDataBase.update("Tasks", row, "ID = ?", new String[]{String.valueOf(ID)});
+                        finish();
+                    }
                 }
             }
         });
