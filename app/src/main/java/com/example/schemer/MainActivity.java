@@ -21,6 +21,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import classes.ButtonCreator;
 import classes.DBHandler;
 import classes.Project;
 
+import android.content.SharedPreferences;
+
 public class MainActivity extends Activity {
 
     //EditTexts
@@ -38,6 +41,8 @@ public class MainActivity extends Activity {
     //Buttons
     private Button addProjectButton;
     private Button projectButtonExample;
+
+    private ImageButton activity_main_top_bar_panel_settings_button;
 
     //LinearLayout
     private LinearLayout content;
@@ -58,13 +63,43 @@ public class MainActivity extends Activity {
     private boolean positionMark1;
     private boolean positionMark2;
 
+    //prefs
+    SharedPreferences app_settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //SearcTextField
-        //searchProjectTextField = findViewById(R.id.searchProjectTextField);
+        searchProjectTextField = findViewById(R.id.searchProjectTextField);
+        searchProjectTextField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ButtonGeneratorWithParameter(searchProjectTextField.getText().toString());
+            }
+        });
+
+        app_settings = getSharedPreferences("settings", MODE_PRIVATE);
+
+        activity_main_top_bar_panel_settings_button = findViewById(R.id.activity_main_top_bar_panel_settings_button);
+        activity_main_top_bar_panel_settings_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsActivity.app_settings = app_settings;
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+            }
+        });
 
         dataHided = false;
         //
@@ -72,6 +107,7 @@ public class MainActivity extends Activity {
         content = findViewById(R.id.content);
 
         //DB creation
+        appDataBase = openOrCreateDatabase("projectData.db", MODE_PRIVATE, null);
         appDataBase = openOrCreateDatabase("projectData.db", MODE_PRIVATE, null);
         appDataBase = DBHandler.checkingAndUpdatingTheDatabase(appDataBase);
         //deleteDatabase("projectData.db");
@@ -106,7 +142,7 @@ public class MainActivity extends Activity {
                         positionMark1 = true;
                     }
 
-                    if(!dataHided && positionMark2){
+                    if(!dataHided && positionMark2 && app_settings.getBoolean("coup_behavior", false)){
                         content.setVisibility(View.INVISIBLE);
                         // content.removeAllViews();
                         dataHided = true;
@@ -159,6 +195,46 @@ public class MainActivity extends Activity {
 
     private void ButtonGenerator(){
         appData = appDataBase.rawQuery("SELECT * FROM Projects", null);
+        content.removeAllViews();
+        while (appData.moveToNext()){
+            Button button = ButtonCreator.CreateButton(appData.getString(1), getApplicationContext(), appData.getInt(0));
+            button.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(content.getContext());
+                    builder.setTitle("Вы уверены, что хотите удалить проект?");
+                    builder.setMessage("Проект " + button.getText() + " будет удален");
+                    builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            appDataBase.delete("Tasks", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Descriptions", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Scripts", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Ideas", "PID = ?", new String[]{String.valueOf(button.getContentDescription())});
+                            appDataBase.delete("Projects", "Name = ?", new String[]{button.getText().toString()});
+                            DropButton(button, content);
+                        }
+                    });
+                    builder.setNegativeButton("Нет", null);
+                    builder.show();
+                    return true;
+                }
+            });
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ProjectCardPanel.projectName = button.getText().toString();
+                    ProjectCardPanel.projectCode = Integer.parseInt(button.getContentDescription().toString());
+                    ProjectCardPanel.appDataBase = appDataBase;
+                    startActivity(new Intent(getApplicationContext(), ProjectCardPanel.class));
+                }
+            });
+            content.addView(button);
+        }
+    }
+
+    private void ButtonGeneratorWithParameter(String parameter){
+        appData = appDataBase.rawQuery("SELECT * FROM Projects WHERE Name LIKE ?", new String[]{"%"+parameter+"%"});
         content.removeAllViews();
         while (appData.moveToNext()){
             Button button = ButtonCreator.CreateButton(appData.getString(1), getApplicationContext(), appData.getInt(0));

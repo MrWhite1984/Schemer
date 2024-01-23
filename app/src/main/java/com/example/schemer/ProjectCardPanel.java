@@ -5,7 +5,9 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -37,7 +39,9 @@ public class ProjectCardPanel extends AppCompatActivity {
 
     RelativeLayout relativeLayout;
 
-    private boolean[] flags;
+    public static boolean[] flags;
+
+    private ImageButton project_card_activity_top_bar_back_button;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -45,6 +49,7 @@ public class ProjectCardPanel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //binding.projectNameLabel.setText("projectName");
         //projectNameLabel = findViewById(R.id.projectNameLabel);
+        flags = null;
 
 
         appData = appDataBase.rawQuery("SELECT * FROM Projects WHERE ID = ?", new String[]{String.valueOf(projectCode)});
@@ -145,7 +150,13 @@ public class ProjectCardPanel extends AppCompatActivity {
             return true;
         });
 
-
+        project_card_activity_top_bar_back_button = findViewById(R.id.project_card_activity_top_bar_back_button);
+        project_card_activity_top_bar_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
     private void replaceFragment(Fragment fragment){
@@ -154,4 +165,6 @@ public class ProjectCardPanel extends AppCompatActivity {
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }
+
+
 }

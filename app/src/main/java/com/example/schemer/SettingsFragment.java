@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -95,14 +96,44 @@ public class SettingsFragment extends Fragment {
         projectIdeasFlag = inf.findViewById(R.id.settings_fragment_projectIdeasFlag);
         projectScriptFlag = inf.findViewById(R.id.settings_fragment_projectScriptFlag);
 
+        projectTasksFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment_settings_top_bar_save_button.setVisibility(View.VISIBLE);
+            }
+        });
+        projectDescriptionFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment_settings_top_bar_save_button.setVisibility(View.VISIBLE);
+            }
+        });
+        projectIdeasFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment_settings_top_bar_save_button.setVisibility(View.VISIBLE);
+            }
+        });
+        projectScriptFlag.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fragment_settings_top_bar_save_button.setVisibility(View.VISIBLE);
+            }
+        });
 
         fragment_settings_top_bar_save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ContentValues row = new ContentValues();
                 row.put("Name", fragment_settings_project_name.getText().toString());
+                row.put("Tasks", projectTasksFlag.isChecked());
+                row.put("Description", projectDescriptionFlag.isChecked());
+                row.put("Ideas", projectIdeasFlag.isChecked());
+                row.put("Script", projectScriptFlag.isChecked());
                 appDataBase.update("Projects", row, "ID = ?", new String[]{String.valueOf(projectCode)});
                 fragment_settings_top_bar_save_button.setVisibility(View.GONE);
+                ProjectCardPanel.flags = null;
+                ProjectCardPanel.flags = new boolean[] {projectTasksFlag.isChecked(), projectDescriptionFlag.isChecked(), projectIdeasFlag.isChecked(), projectScriptFlag.isChecked()};
             }
         });
 
@@ -131,6 +162,8 @@ public class SettingsFragment extends Fragment {
                 checkBoxes[i].setChecked(true);
             }
         }
+
+        fragment_settings_top_bar_save_button.setVisibility(View.GONE);
 
         return inf;
     }

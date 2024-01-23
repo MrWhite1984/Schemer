@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorPrimary">#000</color>
     <color name="projectColor">#04d9ff</color>
-    <color name="projectColor2">#00FF00</color>
+    <color name="sub_color_1">#04d9ff</color>
+    <color name="sub_color_2">#00FF00</color>
     <color name="hintColor">#78DBE2</color>
 </resources>

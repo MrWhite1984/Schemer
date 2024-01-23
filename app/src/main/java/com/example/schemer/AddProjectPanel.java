@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,6 +38,8 @@ public class AddProjectPanel extends Activity {
     private CheckBox projectDescriptionFlag;
     private CheckBox projectIdeasFlag;
     private CheckBox projectScriptFlag;
+
+    private ImageButton add_new_project_activity_top_bar_back_button;
 
     //DB
     SQLiteDatabase appDataBase;
@@ -100,6 +103,13 @@ public class AddProjectPanel extends Activity {
             }
         });
 
+        add_new_project_activity_top_bar_back_button = findViewById(R.id.add_new_project_activity_top_bar_back_button);
+        add_new_project_activity_top_bar_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 }
