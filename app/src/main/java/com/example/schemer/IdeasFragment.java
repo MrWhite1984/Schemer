@@ -89,6 +89,7 @@ public class IdeasFragment extends Fragment {
                 IdeasDataActivity.creating = true;
                 IdeasDataActivity.PID = PID;
                 IdeasDataActivity.appDataBase = appDataBase;
+                appData = appDataBase.rawQuery("SELECT * FROM Ideas ", null);
                 IdeasDataActivity.quantityOfRecords = appData.getCount();
                 startActivity(new Intent(getContext(), IdeasDataActivity.class));
             }

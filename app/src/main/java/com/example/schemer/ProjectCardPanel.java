@@ -29,15 +29,12 @@ public class ProjectCardPanel extends AppCompatActivity {
     public static String projectName;
     public static int projectCode;
 
-    private EditText projectNameLabel;
-
     //DB
     public static SQLiteDatabase appDataBase;
     private Cursor appData;
 
     ProjectCardBinding binding;
 
-    RelativeLayout relativeLayout;
 
     public static boolean[] flags;
 
@@ -47,8 +44,6 @@ public class ProjectCardPanel extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //binding.projectNameLabel.setText("projectName");
-        //projectNameLabel = findViewById(R.id.projectNameLabel);
         flags = null;
 
 
@@ -154,6 +149,7 @@ public class ProjectCardPanel extends AppCompatActivity {
         project_card_activity_top_bar_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                projectCode = 0;
                 finish();
             }
         });

@@ -97,6 +97,7 @@ public class TaskFragment extends Fragment {
                 TaskDataActivity.creating = true;
                 TaskDataActivity.PID = PID;
                 TaskDataActivity.appDataBase = appDataBase;
+                appData = appDataBase.rawQuery("SELECT * FROM Tasks ", null);
                 TaskDataActivity.quantityOfRecords = appData.getCount();
                 startActivity(new Intent(getContext(), TaskDataActivity.class));
             }
