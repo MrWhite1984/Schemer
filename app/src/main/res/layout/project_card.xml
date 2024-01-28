@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ProjectCardPanel"
+    android:id="@+id/project_card_relative_layout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/project_card_activity_top_bar"
+        android:background="@color/projectColor">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="45sp"
+            android:layout_weight="1"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:background="@color/projectColor"
+            android:id="@+id/project_card_activity_top_bar_back_button"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"/>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentFrame"
+        android:layout_below="@+id/BottomNavigationView">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_below="@+id/project_card_activity_top_bar"
+        android:id="@+id/BottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/navi_bar_tabs"
+        android:background="@color/projectColor"
+        app:itemTextColor="@color/black"
+
+        >
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+</RelativeLayout>

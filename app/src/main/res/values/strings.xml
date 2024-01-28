@@ -10,4 +10,23 @@
     <string name="projectSettingsCheckBoxes_Description">Описание</string>
     <string name="projectSettingsCheckBoxes_Ideas">Идеи</string>
     <string name="projectSettingsCheckBoxes_Script">Сценарий</string>
+    <string name="backButtonText">Назад</string>
+    <string name="stubPanelLabel">Панель отключена</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- fragment_settings strings -->
+    <string name="projectSettingsCheckBoxes">Панели</string>
+
+    <!-- fragment_description strings -->
+    <string name="fragment_description_data_task_fragment_text">Текст описания</string>
+
+    <!-- fragment_script strings -->
+    <string name="fragment_script_data_script_fragment_text">Текст сценария</string>
+
+    <!-- activity_task_data strings -->
+    <string name="activity_task_data_task_fragment_text">Текст задачи</string>
+
+    <!-- activity_ideas_data strings -->
+    <string name="activity_ideas_data_ideas_fragment_text">Текст идеи</string>
 </resources>

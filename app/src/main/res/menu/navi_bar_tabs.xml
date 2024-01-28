@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab_tasks"
+        android:title="Задачи"
+        android:icon="@drawable/task"
+        />
+    <item
+        android:id="@+id/tab_description"
+        android:title="Описание"
+        android:icon="@drawable/description"/>
+    <item
+        android:id="@+id/tab_ideas"
+        android:title="Идеи"
+        android:icon="@drawable/emoji_objects"/>
+    <item
+        android:id="@+id/tab_script"
+        android:title="Сценарий"
+        android:icon="@drawable/baseline_receipt_long_24"/>
+    <item
+        android:id="@+id/tab_settings"
+        android:title="Настройки"
+        android:icon="@drawable/settings"/>
+</menu>
